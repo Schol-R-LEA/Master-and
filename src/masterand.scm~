@@ -1,0 +1,313 @@
+(import (rnrs bytevector))
+
+(define assembler-data-init
+  '((output '())
+    (line-count 0)
+    (current-address 0)
+    (labels '())
+    (equates '())
+    (listing '())
+    (errors '())
+    (warnings '())))
+
+(define-syntax nullary
+  (lambda (macro)
+    (syntax-case macro ()
+      ((_ <name> <opcode>)
+       #`(define <name> (lambda () <opcode>)))
+      ((_ <alist>)
+       (map
+        (lambda (x) #`(define #,(car x) (lambda () #,(cdr x))))
+        (syntax->datum #`<alist>))))))
+
+
+
+;;;
+;;;
+;;;
+
+(define assembler
+  (lambda (source-file output-file listing-file)
+    (let* ()
+      )))
+
+(define assemble-expression
+  (lambda (expr starting-address
+
+                (define assemble
+                  (lambda (code)
+                    "assembles a mixed list of keywords, assembly directives,
+data definitions, and expressions (lists consisting of zero
+or more prefixes, an assembly mnemonic, and zero or more
+operands) and returns a record consisting of a vector of
+bytevectors, a hashtable of label-value pairs, the number of
+lines of code (where each directive, definition, label, and
+expression is considered one line), the total size of the
+bytevector in bytes, a code listing with line numbers,
+a list of warning reports, and a list of error reports.
+
+The assembler will attempt to complete the assembly in spite
+of errors, but instead proceed while returning an error report,
+but a few errors will probably be immediately fatal."
+
+                    (letrec ((output '())
+                             (line-count 0)
+                             (current-address 0)
+                             (labels '())
+                             (equates '())
+                             (listing '())
+                             (errors '())
+                             (warnings '())
+                             ;;
+                             ;;
+                             (add-warning!
+                              (lambda (warning expr line)
+                                (append! warnings (list warning expr line))))
+                             (add-error!
+                              (lambda (error expr line)
+                                (append! errors (list error expr line))))
+                             ;;
+                             ;;
+                             (identify-exprs
+                              (lambda (expr)
+                                (cond
+                                 ((label? expr)
+                                  (assoc-set! labels expr current-address))
+                                 ((list? expr)
+                                  ())
+                                 )))
+                             ;;
+                             (value-byte
+                              (lambda (value)
+                                (cond
+                                 ((integer? value) value)
+                                 (else #f))))
+                             (define-const
+                               (lambda (name value)
+                                 (if (assoc equates name)
+                                     (add-warning! 'Duplicate-constant name line-count)
+                                     (assoc-set! equates name value))))
+                             (define-byte
+                               (lambda (value . values)
+                                 (map value->byte (cons value values))))
+                             (define-string
+                               (lambda ()
+                                 0))
+                             (define-stringz
+                               (lambda ()
+                                 0))
+                             ;;
+
+                             (brk
+                              (lambda ()
+                                0))
+                             (nop
+                              (lambda ()
+                                #xEA))
+                             (rts
+                              (lambda ()
+                                0))
+                             (rti
+                              (lambda ()
+                                0))
+                             (clc
+                              (lambda ()
+                                0))
+                             (sec
+                              (lambda ()
+                                0))
+                             (cld
+                              (lambda ()
+                                0))
+                             (sed
+                              (lambda ()
+                                0))
+                             (cli
+                              (lambda ()
+                                0))
+                             (sei
+                              (lambda ()
+                                0))
+                             (clv
+                              (lambda ()
+                                0))
+                             (pha
+                              (lambda ()
+                                0))
+                             (pla
+                              (lambda ()
+                                0))
+                             (php
+                              (lambda ()
+                                0))
+                             (plp
+                              (lambda ()
+                                0))
+                             (inx
+                              (lambda ()
+                                0))
+                             (iny
+                              (lambda ()
+                                0))
+                             (dex
+                              (lambda ()
+                                0))
+                             (dey
+                              (lambda ()
+                                0))
+                             (tax
+                              (lambda ()
+                                0))
+                             (tay
+                              (lambda ()
+                                0))
+                             (txa
+                              (lambda ()
+                                0))
+                             (tya
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             (brk
+                              (lambda ()
+                                0))
+                             ()))
+                    (if (null? code)
+                        (display "Fatal error - source list is empty.")
+
+                        ;; step one - apply identify-labels to each entry in
+                        ;; the code list. This is done by currying the
+                        ;; intermediates record to the identify-expr call,
+                        ;; returning the actual identifier function. This is
+                        ;; then applied to a generated list of expression numbers
+                        ;; and the expressions themselves.
+
+                        (for-each
+                         (identify-exprs intermediates)
+                         code
+                         ()
+                         ;; step two -
+                         ((delabeled-code
+                           (map resolve-labels evaluated-exprs)))
+                         ))))
+
+;;;
+;;;
+;;;
+
+                (define symbol->label
+                  (lambda (sym)
+                    (if (and (symbol? sym) (not (label? sym)))
+                        (string->symbol (string-append (symbol->string sym) ":"))
+                        sym)))
+
+                (define label->string
+                  (lambda (lbl)
+                    (if (label? lbl)
+                        (let ((text (symbol->string lbl)))
+                          (substring text 0 (- (string-length text) 1)))
+                        lbl)))
+
+                (define label->symbol
+                  (lambda (lbl)
+                    (string->symbol (label->string lbl))))
+
+                (define label?
+                  (lambda (sym)
+                    (let ((text (symbol->string sym)))
+                      (char=? #\: (string-ref text (- (string-length text) 1))))))
