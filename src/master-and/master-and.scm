@@ -1,4 +1,8 @@
-(import (rnrs bytevector))
+#!r6rs
+
+(import (rnrs bytevectors (6))
+        (srfi srfi-60)
+        (master-and opcodes)
 
 (define assembler-data-init
   '((output '())
@@ -15,6 +19,7 @@
   (lambda (opcode)
     (lambda ()
       (list (make-bytevector 1 opcode)))))
+
 
 (define-syntax define-nullary
   (lambda (macro)
@@ -38,7 +43,7 @@
                  ((z-indexed-x) (inexact->exact #b10100))
                  ((abs-y) (inexact->exact #b11000))
                  ((abs-x) (inexact->exact #b11100))
-                 (else (error "Invalid arithlogical indexing operation"))))
+                 (else (error "Invalid arithmetic indexing operation"))))
               (computed-opcode (bitwise-ior <opcode> (bitwise-ior computed-subop 1))))
          (list (make-bytevector 1 computed-opcode)
                (make-bytevector 1 value)))))
@@ -105,7 +110,6 @@
 (define-opcode ldx #b10100000 logic)
 (define-opcode dec #b11000000 logic)
 (define-opcode inc #b11100000 logic)
-
 
 (define-opcode bit #b00100000 jump)
 (define-opcode jmp #b01000000 jump)

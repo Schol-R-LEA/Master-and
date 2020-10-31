@@ -1,0 +1,14 @@
+%%%% Starting test Test nullaries
+Group begin: Test nullaries
+Group begin: Test make-nullary
+Test begin:
+  test-name: (#vu8(0))
+  source-file: "/home/schol-r-lea/Documents/Programming/Projects/Master-and/tests/opcode-tests.scm"
+  source-line: 18
+  source-form: (test-assert (list (make-bytevector 1 0)) (zero-test))
+Test end:
+  result-kind: pass
+  actual-value: (#vu8(0))
+Group end: Test make-nullary
+Group end: Test nullaries
+# of expected passes      1

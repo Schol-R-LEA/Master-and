@@ -1,0 +1,14 @@
+%%%% Starting test Test module import-export
+Group begin: Test module import-export
+Group begin: Test (foo)
+Test begin:
+  source-file: "/home/schol-r-lea/Documents/Programming/Projects/Master-and/tests/dummy-tests.scm"
+  source-line: 14
+  source-form: (test-equal 6 (foo 3))
+Test end:
+  result-kind: pass
+  actual-value: 6
+  expected-value: 6
+Group end: Test (foo)
+Group end: Test module import-export
+# of expected passes      1
